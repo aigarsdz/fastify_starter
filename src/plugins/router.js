@@ -12,7 +12,7 @@ async function router(fastify) {
       const ControllerClass = require(filePath)
       const controller = new ControllerClass()
 
-      let urlPath = '/' + path.basename(fileName, '.js')
+      let urlPath = '/' + path.basename(fileName, '.js').replace(/[\s_]+/g, '-')
 
       if (urlPath == '/home') {
         urlPath = '/'
@@ -23,7 +23,7 @@ async function router(fastify) {
       }
 
       if (controller.index) {
-        fastify.get(urlPath, controller.index)
+        fastify.get(urlPath, { preHandler: controller.beforeIndex }, controller.index)
       }
 
       if (controller.new) {
@@ -47,7 +47,7 @@ async function router(fastify) {
       }
 
       if (controller.delete) {
-        fastify.post(`${urlPath}/:resourceId/delete`, controller.delete)
+        fastify.get(`${urlPath}/:resourceId/delete`, controller.delete)
         fastify.delete(`${urlPath}/:resourceId`, controller.delete)
       }
     }
