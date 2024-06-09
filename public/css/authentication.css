@@ -1,0 +1,28 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+input,
+button {
+  padding: 10px;
+}
+
+input {
+  height: 20px;
+  width: 400px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  min-width: 100px;
+}

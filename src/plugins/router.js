@@ -23,32 +23,32 @@ async function router(fastify) {
       }
 
       if (controller.index) {
-        fastify.get(urlPath, { preHandler: controller.beforeIndex }, controller.index)
+        fastify.get(urlPath, { preHandler: controller.beforeIndex }, controller.index.bind(controller))
       }
 
       if (controller.new) {
-        fastify.get(`${urlPath}/new`, controller.new)
+        fastify.get(`${urlPath}/new`, controller.new.bind(controller))
       }
 
       if (controller.create) {
-        fastify.post(urlPath, controller.create)
+        fastify.post(urlPath, controller.create.bind(controller))
       }
 
       if (controller.view) {
-        fastify.get(`${urlPath}/:resourceId`, controller.view)
+        fastify.get(`${urlPath}/:resourceId`, controller.view.bind(controller))
       }
 
       if (controller.edit) {
-        fastify.get(`${urlPath}/resourceId/edit`, controller.edit)
+        fastify.get(`${urlPath}/resourceId/edit`, controller.edit.bind(controller))
       }
 
       if (controller.update) {
-        fastify.put(`${urlPath}/:resourceId`, controller.update)
+        fastify.put(`${urlPath}/:resourceId`, controller.update.bind(controller))
       }
 
       if (controller.delete) {
-        fastify.get(`${urlPath}/:resourceId/delete`, controller.delete)
-        fastify.delete(`${urlPath}/:resourceId`, controller.delete)
+        fastify.get(`${urlPath}/:resourceId/delete`, controller.delete.bind(controller))
+        fastify.delete(`${urlPath}/:resourceId`, controller.delete.bind(controller))
       }
     }
   }
