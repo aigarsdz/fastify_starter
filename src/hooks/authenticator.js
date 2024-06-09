@@ -1,5 +1,5 @@
 async function authenticate(request, response) {
-  if (!request.session.authenticated) {
+  if (!request.session.userId) {
     return response.redirect('/login')
   }
 }

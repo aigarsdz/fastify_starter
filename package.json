@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js | pino-pretty"
+    "dev": "nodemon index.js | pino-pretty",
+    "migrate": "sequelize-cli db:migrate",
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "sequelize-cli db:migrate:undo:all",
+    "generate:migration": "sequelize-cli migration:generate"
   },
   "author": "Aigars Dzerviniks",
   "license": "MIT",
@@ -22,10 +26,13 @@
     "better-sqlite3": "^11.0.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "fastify": "^4.27.0"
+    "fastify": "^4.27.0",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.3",
-    "pino-pretty": "^11.1.0"
+    "pino-pretty": "^11.1.0",
+    "sequelize-cli": "^6.6.2"
   }
 }

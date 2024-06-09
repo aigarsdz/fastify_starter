@@ -2,7 +2,7 @@ const BaseController = require('./base_controller')
 
 class Home extends BaseController {
   index(request, response) {
-    response.view('home/index', {}, { layout: this.layout })
+    return response.view('home/index', {}, { layout: this.layout })
   }
 }
 
