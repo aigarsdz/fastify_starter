@@ -9,7 +9,8 @@
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "migrate:undo:all": "sequelize-cli db:migrate:undo:all",
-    "generate:migration": "sequelize-cli migration:generate"
+    "generate:migration": "sequelize-cli migration:generate",
+    "generate:resource": "node generators/resource.js"
   },
   "author": "Aigars Dzerviniks",
   "license": "MIT",

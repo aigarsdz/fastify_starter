@@ -3,6 +3,8 @@ const BaseController = require('./base_controller')
 const User = require('../models/user')
 
 class Registration extends BaseController {
+  layout = 'layouts/authentication'
+
   index(request, response) {
     return response.view('registration/index', {}, { layout: this.layout })
   }

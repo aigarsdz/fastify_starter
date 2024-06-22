@@ -11,6 +11,15 @@ async function router(fastify) {
     if ((await fs.lstat(filePath)).isFile()) {
       const ControllerClass = require(filePath)
       const controller = new ControllerClass()
+      const preHandlers = {
+        index: controller.beforeIndex,
+        new: controller.beforeNew,
+        create: controller.beforeCreate,
+        view: controller.beforeView,
+        edit: controller.beforeEdit,
+        update: controller.beforeUpdate,
+        delete: controller.beforeDelete
+      }
 
       let urlPath = '/' + path.basename(fileName, '.js').replace(/[\s_]+/g, '-')
 
@@ -18,37 +27,45 @@ async function router(fastify) {
         urlPath = '/'
       }
 
+      if (controller.beforeAll.length > 0) {
+        for (const key of Object.keys(preHandlers)) {
+          if (!controller.exceptBefore.includes(key)) {
+            preHandlers[key] = [...preHandlers[key], ...controller.beforeAll]
+          }
+        }
+      }
+
       if (controller.urlPath) {
         urlPath = controller.urlPath
       }
 
       if (controller.index) {
-        fastify.get(urlPath, { preHandler: controller.beforeIndex }, controller.index.bind(controller))
+        fastify.get(urlPath, { preHandler: preHandlers.index }, controller.index.bind(controller))
       }
 
       if (controller.new) {
-        fastify.get(`${urlPath}/new`, controller.new.bind(controller))
+        fastify.get(`${urlPath}/new`, { preHandler: preHandlers.new }, controller.new.bind(controller))
       }
 
       if (controller.create) {
-        fastify.post(urlPath, controller.create.bind(controller))
+        fastify.post(urlPath, { preHandler: preHandlers.create }, controller.create.bind(controller))
       }
 
       if (controller.view) {
-        fastify.get(`${urlPath}/:resourceId`, controller.view.bind(controller))
+        fastify.get(`${urlPath}/:resourceId`, { preHandler: preHandlers.view }, controller.view.bind(controller))
       }
 
       if (controller.edit) {
-        fastify.get(`${urlPath}/resourceId/edit`, controller.edit.bind(controller))
+        fastify.get(`${urlPath}/resourceId/edit`, { preHandler: preHandlers.edit }, controller.edit.bind(controller))
       }
 
       if (controller.update) {
-        fastify.put(`${urlPath}/:resourceId`, controller.update.bind(controller))
+        fastify.put(`${urlPath}/:resourceId`, { preHandler: preHandlers.update }, controller.update.bind(controller))
       }
 
       if (controller.delete) {
-        fastify.get(`${urlPath}/:resourceId/delete`, controller.delete.bind(controller))
-        fastify.delete(`${urlPath}/:resourceId`, controller.delete.bind(controller))
+        fastify.get(`${urlPath}/:resourceId/delete`, { preHandler: preHandlers.delete }, controller.delete.bind(controller))
+        fastify.delete(`${urlPath}/:resourceId`, { preHandler: preHandlers.delete }, controller.delete.bind(controller))
       }
     }
   }
