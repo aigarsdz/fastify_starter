@@ -4,13 +4,18 @@ const fastifyRateLimit = require('@fastify/rate-limit')
 const fastifyFormBody = require('@fastify/formbody')
 const fastifyMultipart = require('@fastify/multipart')
 const fastifyStatic = require('@fastify/static')
-const fastifySession = require('@fastify/session')
 const fastifyCookie = require('@fastify/cookie')
-const fastifyView = require('@fastify/view')
-const SessionStore = require('./src/session_store')
+const fastifyCompress = require('@fastify/compress')
+const { Liquid } = require('liquidjs')
 const router = require('./src/plugins/router')
+const renderer = require('./src/plugins/renderer')
 
 require('dotenv').config()
+
+const engine = new Liquid({
+  root: path.join(__dirname, 'src/views'),
+  extname: ".liquid",
+})
 
 const fastify = require('fastify')({
   logger: true
@@ -27,20 +32,12 @@ fastify.register(fastifyStatic, {
 })
 fastify.register(fastifyFormBody)
 fastify.register(fastifyMultipart)
-fastify.register(fastifyCookie)
-fastify.register(fastifySession, {
-  secret: process.env.SESSION_SECRET,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-    secure: process.env.NODE_ENV == 'production',
-  },
-  store: new SessionStore(path.join(__dirname, 'data', 'sessions.sqlite'))
+fastify.register(fastifyCookie, {
+  secret: process.env.COOKIE_SECRET
 })
-fastify.register(fastifyView, {
-  engine: {
-    ejs: require('ejs')
-  },
-  root: path.join(__dirname, 'src', 'views')
+fastify.register(fastifyCompress)
+fastify.register(renderer, {
+  defaultLayout: 'layouts/default'
 })
 fastify.register(router)
 

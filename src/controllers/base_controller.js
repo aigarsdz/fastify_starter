@@ -1,14 +1,12 @@
 class BaseController {
-  layout = 'layouts/index'
-  beforeAll = []
-  exceptBefore = []
-  beforeIndex = [async () => {}]
-  beforeNew = [async () => {}]
-  beforeCreate = [async () => {}]
-  beforeView = [async () => {}]
-  beforeEdit = [async () => {}]
-  beforeUpdate = [async () => {}]
-  beforeDelete = [async () => {}]
+  hooks = {}
+  indexHooks = {}
+  newHooks = {}
+  createHooks = {}
+  viewHooks = {}
+  editHooks = {}
+  updateHooks = {}
+  deleteHooks = {}
 }
 
 module.exports = BaseController

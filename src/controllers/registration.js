@@ -6,16 +6,25 @@ class Registration extends BaseController {
   layout = 'layouts/authentication'
 
   index(request, response) {
-    return response.view('registration/index', {}, { layout: this.layout })
+    return response.render('registration/index', { layout: this.layout })
   }
 
   async create(request, response) {
-    const passwordHash = await argon2.hash(request.body.password)
-    const user = await User.create({ username: request.body.username, password: passwordHash })
+    const user = new User()
 
-    request.session.userId = user.id
+    user.username = request.body.username.trim()
+    user.password = await argon2.hash(request.body.password)
 
-    return response.redirect('/dashboard')
+    try {
+      user.create()
+      response.setCookie('auth_session_id', `${user.id}`, { signed: true })
+
+      return response.redirect('/dashboard')
+    } catch (error) {
+      request.log.error(error)
+
+      return response.redirect('/registration')
+    }
   }
 }
 

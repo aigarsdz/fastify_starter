@@ -3,12 +3,15 @@ const { authenticate } = require('../hooks/authenticator')
 const User = require('../models/user')
 
 class Dashboard extends BaseController {
-  beforeIndex = authenticate
+  hooks = {
+    preHandler: authenticate
+  }
 
-  async index(request, response) {
-    const user = await User.findByPk(request.session.userId)
+  index(request, response) {
+    const cookie = request.unsignCookie(request.cookies.auth_session_id)
+    const user = new User(Number(cookie.value))
 
-    return response.view('dashboard/index', { user }, { layout: this.layout })
+    return response.render('dashboard/index', { user })
   }
 }
 

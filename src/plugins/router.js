@@ -1,25 +1,17 @@
 const path = require('path')
 const fs = require('node:fs/promises')
+const fp = require('fastify-plugin')
 
 async function router(fastify) {
   const controllersDir = path.join(path.dirname(__dirname), 'controllers')
   const controllerFiles = await fs.readdir(controllersDir)
 
-  for (let fileName of controllerFiles) {
+  for (const fileName of controllerFiles) {
     const filePath = path.join(controllersDir, fileName)
 
     if ((await fs.lstat(filePath)).isFile()) {
       const ControllerClass = require(filePath)
       const controller = new ControllerClass()
-      const preHandlers = {
-        index: controller.beforeIndex,
-        new: controller.beforeNew,
-        create: controller.beforeCreate,
-        view: controller.beforeView,
-        edit: controller.beforeEdit,
-        update: controller.beforeUpdate,
-        delete: controller.beforeDelete
-      }
 
       let urlPath = '/' + path.basename(fileName, '.js').replace(/[\s_]+/g, '-')
 
@@ -27,48 +19,54 @@ async function router(fastify) {
         urlPath = '/'
       }
 
-      if (controller.beforeAll.length > 0) {
-        for (const key of Object.keys(preHandlers)) {
-          if (!controller.exceptBefore.includes(key)) {
-            preHandlers[key] = [...preHandlers[key], ...controller.beforeAll]
-          }
-        }
-      }
-
       if (controller.urlPath) {
         urlPath = controller.urlPath
       }
 
       if (controller.index) {
-        fastify.get(urlPath, { preHandler: preHandlers.index }, controller.index.bind(controller))
+        fastify.get(urlPath, { ...controller.hooks, ...controller.indexHooks }, controller.index.bind(controller))
       }
 
       if (controller.new) {
-        fastify.get(`${urlPath}/new`, { preHandler: preHandlers.new }, controller.new.bind(controller))
+        fastify.get(`${urlPath}/new`, { ...controller.hooks, ...controller.newHooks }, controller.new.bind(controller))
       }
 
       if (controller.create) {
-        fastify.post(urlPath, { preHandler: preHandlers.create }, controller.create.bind(controller))
+        fastify.post(urlPath, { ...controller.hooks, ...controller.createHooks }, controller.create.bind(controller))
       }
 
       if (controller.view) {
-        fastify.get(`${urlPath}/:resourceId`, { preHandler: preHandlers.view }, controller.view.bind(controller))
+        fastify.get(`${urlPath}/:resourceId`, { ...controller.hooks, ...controller.viewHooks }, controller.view.bind(controller))
       }
 
       if (controller.edit) {
-        fastify.get(`${urlPath}/resourceId/edit`, { preHandler: preHandlers.edit }, controller.edit.bind(controller))
+        fastify.get(`${urlPath}/resourceId/edit`, { ...controller.hooks, ...controller.editHooks }, controller.edit.bind(controller))
       }
 
       if (controller.update) {
-        fastify.put(`${urlPath}/:resourceId`, { preHandler: preHandlers.update }, controller.update.bind(controller))
+        fastify.put(`${urlPath}/:resourceId`, { ...controller.hooks, ...controller.updateHooks }, controller.update.bind(controller))
+        fastify.post(`${urlPath}/:resourceId`, { ...controller.hooks, ...controller.updateHooks }, controller.update.bind(controller))
       }
 
       if (controller.delete) {
-        fastify.get(`${urlPath}/:resourceId/delete`, { preHandler: preHandlers.delete }, controller.delete.bind(controller))
-        fastify.delete(`${urlPath}/:resourceId`, { preHandler: preHandlers.delete }, controller.delete.bind(controller))
+        fastify.get(`${urlPath}/:resourceId/delete`, { ...controller.hooks, ...controller.deleteHooks }, controller.delete.bind(controller))
+        fastify.post(`${urlPath}/:resourceId/delete`, { ...controller.hooks, ...controller.deleteHooks }, controller.delete.bind(controller))
+        fastify.delete(`${urlPath}/:resourceId`, { ...controller.hooks, ...controller.deleteHooks }, controller.delete.bind(controller))
+      }
+
+      if (controller.customRoutes) {
+        for (const route of controller.customRoutes) {
+          let customRouteHooks = { ...hooks }
+
+          if (route.length > 3) {
+            customRouteHooks = { ...customRouteHooks, ...route[3] }
+          }
+
+          fastify[route[0]](route[1], customRouteHooks, route[2].bind(controller))
+        }
       }
     }
   }
 }
 
-module.exports = router
+module.exports = fp(router)

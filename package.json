@@ -6,34 +6,30 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js | pino-pretty",
-    "migrate": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo",
-    "migrate:undo:all": "sequelize-cli db:migrate:undo:all",
-    "generate:migration": "sequelize-cli migration:generate",
     "generate:resource": "node generators/resource.js"
   },
   "author": "Aigars Dzerviniks",
   "license": "MIT",
   "dependencies": {
-    "@fastify/cookie": "^9.3.1",
-    "@fastify/formbody": "^7.4.0",
-    "@fastify/helmet": "^11.1.1",
-    "@fastify/multipart": "^8.2.0",
-    "@fastify/rate-limit": "^9.1.0",
-    "@fastify/session": "^10.9.0",
-    "@fastify/static": "^7.0.4",
-    "@fastify/view": "^9.1.0",
-    "argon2": "^0.40.3",
-    "better-sqlite3": "^11.0.0",
-    "dotenv": "^16.4.5",
+    "@fastify/compress": "^8.0.1",
+    "@fastify/cookie": "^11.0.1",
+    "@fastify/formbody": "^8.0.1",
+    "@fastify/helmet": "^13.0.0",
+    "@fastify/multipart": "^9.0.1",
+    "@fastify/rate-limit": "^10.2.1",
+    "@fastify/static": "^8.0.3",
+    "argon2": "^0.41.1",
+    "better-sqlite3": "^11.8.1",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
-    "fastify": "^4.27.0",
-    "sequelize": "^6.37.3",
-    "sqlite3": "^5.1.7"
+    "fastify": "^5.2.0",
+    "fastify-plugin": "^5.0.1",
+    "knex": "^3.1.0",
+    "liquidjs": "^10.20.2",
+    "postgrator": "^8.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3",
-    "pino-pretty": "^11.1.0",
-    "sequelize-cli": "^6.6.2"
+    "pino-pretty": "^11.1.0"
   }
 }

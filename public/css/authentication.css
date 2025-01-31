@@ -15,10 +15,10 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0;
-  background-color: hsl(21, 24%, 78%);
 }
 
-label {
+label,
+button {
   display: block;
 }
 
@@ -26,27 +26,16 @@ input,
 button {
   padding: 10px;
   border-radius: 4px;
+  border: 1px solid;
 }
 
 input {
   height: 20px;
   width: 400px;
   margin-bottom: 10px;
-  border: 1px solid hsl(21, 24%, 68%);
-  background-color: hsl(21, 24%, 84%);;
 }
 
 button {
-  display: block;
   width: 100%;
   font-size: 1rem;
-  background-color: hsl(0, 46%, 44%);
-  border: none;
-  color: white;
-  transition: background-color .2s;
-
-  &:hover,
-  &:active {
-    background-color: hsl(0, 46%, 60%);
-  }
 }

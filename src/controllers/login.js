@@ -6,15 +6,22 @@ class Login extends BaseController {
   layout = 'layouts/authentication'
 
   index(request, response) {
-    return response.view('login/index', {}, { layout: this.layout })
+    return response.render('login/index', { layout: this.layout })
   }
 
   async create(request, response) {
     const hash = await argon2.hash(request.body.password)
-    const user = await User.findOne({ where: { username: request.body.username }})
+
+    let user = null
+
+    try  {
+      user = User.fromUsername(request.body.username)
+    } catch (error) {
+      request.log.error(error)
+    }
 
     if (user && await argon2.verify(user.password, request.body.password)) {
-      request.session.userId = user.id
+      response.setCookie('auth_session_id', `${user.id}`, { signed: true })
 
       return response.redirect('/dashboard')
     } else {
@@ -23,7 +30,8 @@ class Login extends BaseController {
   }
 
   delete(request, response) {
-    request.session.destroy(() => response.redirect('/login'))
+    response.clearCookie('auth_session_id')
+    response.redirect('/login')
   }
 }
 
