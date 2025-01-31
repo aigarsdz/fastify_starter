@@ -20,8 +20,8 @@ A starter project using [Fastify](https://fastify.dev/).
 - **src/models** - classes used to interact with the database.
 - **src/plugins** - Fastify
   [plugins](https://fastify.dev/docs/latest/Guides/Plugins-Guide/).
-- **src/views** - EJS templates grouped by a resource.
-- **src/views/layouts** - EJS layouts.
+- **src/views** - Liquid templates grouped by a resource.
+- **src/views/layouts** - Liquid layouts.
 - **index.js** - the main application file.
 - **knexfile.js** - Knex.js configuration file used for migrations.
 
