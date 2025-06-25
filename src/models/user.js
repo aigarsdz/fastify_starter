@@ -8,16 +8,14 @@ class User extends BaseModel {
   createdAt = null
   updatedAt = null
 
-  constructor(userId = 0) {
+  constructor(userId) {
     super()
 
-    if (userId == 0) {
-      throw new Error('The user id must be an integer greater than 0.')
+    if (userId) {
+      const user = database.prepare('SELECT * FROM users WHERE id = ?').get(userId)
+
+      this.assignValues(user)
     }
-
-    const user = database.prepare('SELECT * FROM users WHERE id = ?').get(userId)
-
-    this.assignValues(user)
   }
 
   create() {
