@@ -1,12 +1,28 @@
 const database = require('../database')
 const BaseModel = require('./base_model')
+const TwoFactorSecret = require('./two_factor_secret')
 
 class User extends BaseModel {
   id = 0
   username = ''
   password = ''
+  twoFactorAuthEnabled = 0
   createdAt = null
   updatedAt = null
+
+  #twoFactorSecret = null
+
+  get has2FA() {
+    return Boolean(this.twoFactorAuthEnabled)
+  }
+
+  get twoFactorSecret() {
+    if (!this.#twoFactorSecret) {
+      this.#twoFactorSecret = new TwoFactorSecret(this.id)
+    }
+
+    return this.#twoFactorSecret
+  }
 
   constructor(userId) {
     super()
@@ -38,8 +54,8 @@ class User extends BaseModel {
 
   update() {
     database.prepare(
-      'UPDATE users SET username = ?, updatedAt = ? WHERE id = ?'
-    ).run(this.username, this.updatedAt, this.id)
+      'UPDATE users SET username = ?, twoFactorAuthEnabled = ?, updatedAt = ? WHERE id = ?'
+    ).run(this.username, this.twoFactorAuthEnabled, this.updatedAt, this.id)
   }
 
   static fromUsername(username) {

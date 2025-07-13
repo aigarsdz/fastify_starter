@@ -6,7 +6,8 @@ module.exports = {
     },
     migrations: {
       directory: './src/migrations'
-    }
+    },
+    useNullAsDefault: true
   },
 
   staging: {
@@ -22,7 +23,8 @@ module.exports = {
     },
     migrations: {
       directory: './src/migrations'
-    }
+    },
+    useNullAsDefault: true
   },
 
   production: {
@@ -38,6 +40,7 @@ module.exports = {
     },
     migrations: {
       directory: './src/migrations'
-    }
+    },
+    useNullAsDefault: true
   }
 }

@@ -2,4 +2,6 @@
 
 {% block content %}
 User {{ user.id }}
+
+<a href="/login/{{ user.id }}/delete">Logout</a>
 {% endblock %}

@@ -56,7 +56,7 @@ async function router(fastify) {
 
       if (controller.customRoutes) {
         for (const route of controller.customRoutes) {
-          let customRouteHooks = { ...hooks }
+          let customRouteHooks = { ...route.hooks }
 
           if (route.length > 3) {
             customRouteHooks = { ...customRouteHooks, ...route[3] }

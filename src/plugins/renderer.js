@@ -8,7 +8,7 @@ const engine = new Liquid({
 })
 
 function renderer(fastify, options) {
-	fastify.decorateReply('render', async function (viewPath, data) {
+	fastify.decorateReply('render', async function (viewPath, data = {}) {
 		if (!data.layout) {
 			data.layout = options.defaultLayout
 		}

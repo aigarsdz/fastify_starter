@@ -1,12 +1,16 @@
 {
   "name": "fastify_starter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A starter project using Fastify.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js | pino-pretty",
-    "generate:resource": "node generators/resource.js"
+    "dev": "node --watch index.js | pino-pretty",
+    "generate:resource": "node generators/resource.js",
+    "generate:model": "node generators/model.js",
+    "generate:migration": "knex migrate:make",
+    "db:migrate": "knex migrate:up",
+    "db:rollback": "knex migrate:down"
   },
   "author": "Aigars Dzerviniks",
   "license": "MIT",
@@ -24,10 +28,12 @@
     "fastify": "^5.4.0",
     "fastify-plugin": "^5.0.1",
     "knex": "^3.1.0",
-    "liquidjs": "^10.21.1"
+    "liquidjs": "^10.21.1",
+    "otpauth": "^9.4.0",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10",
-    "pino-pretty": "^13.0.0"
+    "pino-pretty": "^13.0.0",
+    "pluralize": "^8.0.0"
   }
 }

@@ -1,0 +1,11 @@
+{% layout layout %}
+
+{% block content %}
+<img src="{{ qrCode }}">
+
+<form action="/dashboard/settings/enable-2fa" method="POST">
+	<label for="totpCode">Code</label>
+	<input type="number" name="totpCode" id="totpCode" autofocus>
+	<button type="submit">Enable</button>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% layout layout %}
+
+{% block content %}
+	{% if user.twoFactorAuthEnabled == 1 %}
+	<form action="/dashboard/settings/disable-2fa" method="POST">
+		<button type="submit">Disable two factor authentication</button>
+	</form>
+	{% else %}
+	<a href="/dashboard/settings/enable-2fa">Enable two factor authentication</a>
+	{% endif %}
+{% endblock %}

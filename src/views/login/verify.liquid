@@ -1,0 +1,16 @@
+{% layout layout %}
+
+{% block content %}
+<form method="POST" action="/login/verify">
+  <input type="hidden" name="userID" value="{{ userID }}">
+  <input type="hidden" name="temporaryCode" value="{{ temporaryCode }}">
+
+  <div>
+    <label for="totpCode">Code</label>
+    <input type="number" name="totpCode" id="totpCode" autofocus>
+  </div>
+  <div>
+    <button type="submit">Login</button>
+  </div>
+</form>
+{% endblock %}
