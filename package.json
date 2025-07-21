@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch index.js | pino-pretty",
+    "dev": "node --watch index.js --env-file .env | pino-pretty",
+    "start": "node index.js --env-file .env",
     "generate:resource": "node generators/resource.js",
     "generate:model": "node generators/model.js",
     "generate:migration": "knex migrate:make",
@@ -24,7 +25,6 @@
     "@fastify/static": "^8.2.0",
     "argon2": "^0.43.0",
     "better-sqlite3": "^12.1.1",
-    "dotenv": "^16.5.0",
     "fastify": "^5.4.0",
     "fastify-plugin": "^5.0.1",
     "knex": "^3.1.0",

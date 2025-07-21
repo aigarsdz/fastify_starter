@@ -10,8 +10,6 @@ const { Liquid } = require('liquidjs')
 const router = require('./src/plugins/router')
 const renderer = require('./src/plugins/renderer')
 
-require('dotenv').config()
-
 const engine = new Liquid({
   root: path.join(__dirname, 'src/views'),
   extname: ".liquid",
