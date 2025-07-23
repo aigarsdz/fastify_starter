@@ -1,7 +1,7 @@
-const argon2 = require('argon2')
-const BaseController = require('./base_controller')
-const User = require('../models/user')
-const TwoFactorSecret = require('../models/two_factor_secret')
+import argon2 from 'argon2'
+import BaseController from '#base_controller'
+import User from '#user'
+import TwoFactorSecret from '#two_factor_secret'
 
 class Login extends BaseController {
   layout = 'layouts/authentication'
@@ -20,8 +20,8 @@ class Login extends BaseController {
 
     if (user && await argon2.verify(user.password, request.body.password)) {
       if (user.has2FA) {
-        user.twofactorSecret.setTemporaryCode()
-        user.twofactorSecret.update()
+        user.twoFactorSecret.setTemporaryCode()
+        user.twoFactorSecret.update()
 
         return response.redirect(`/login/verify/${user.id}`)
       }
@@ -35,19 +35,19 @@ class Login extends BaseController {
   }
 
   verify(request, response) {
-    const twofactorSecret = new TwoFactorSecret(request.params.userID)
+    const twoFactorSecret = new TwoFactorSecret(request.params.userID)
 
     return response.render('login/verify', {
       layout: this.layout,
       userID: request.params.userID,
-      temporaryCode: twofactorSecret.temporaryCode
+      temporaryCode: twoFactorSecret.temporaryCode
     })
   }
 
   confirmVerification(request, response) {
-    const twofactorSecret = new TwoFactorSecret(request.body.userID)
+    const twoFactorSecret = new TwoFactorSecret(request.body.userID)
 
-    if (twofactorSecret.verify(request.body.totpCode, request.body.temporaryCode)) {
+    if (twoFactorSecret.verify(request.body.totpCode, request.body.temporaryCode)) {
       response.setCookie('auth_session_id', `${request.body.userID}`, { signed: true, path: '/' })
 
       return response.redirect('/dashboard')
@@ -62,4 +62,4 @@ class Login extends BaseController {
   }
 }
 
-module.exports = Login
+export default Login

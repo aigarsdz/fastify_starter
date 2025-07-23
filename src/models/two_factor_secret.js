@@ -1,7 +1,7 @@
-const OTPAuth = require('otpauth')
-const QRCode = require('qrcode')
-const database = require('../database')
-const BaseModel = require('./base_model')
+import * as OTPAuth from 'otpauth'
+import QRCode from 'qrcode'
+import database from '#database'
+import BaseModel from '#base_model'
 
 class TwoFactorSecret extends BaseModel {
   id = 0
@@ -114,4 +114,4 @@ class TwoFactorSecret extends BaseModel {
   }
 }
 
-module.exports = TwoFactorSecret
+export default TwoFactorSecret

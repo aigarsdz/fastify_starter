@@ -1,7 +1,7 @@
-const path = require('path')
-const Database = require('better-sqlite3')
+import path from 'node:path'
+import Database from 'better-sqlite3'
 
-const DATABASE_PATH = path.join(path.dirname(__dirname), 'data/database.sqlite')
+const DATABASE_PATH = 'data/database.sqlite'
 
 const database = new Database(DATABASE_PATH)
 
@@ -14,4 +14,4 @@ database.pragma('cache_size=10000')
 database.pragma('busy_timeout=5000')
 database.pragma('temp_store=MEMORY')
 
-module.exports = database
+export default database

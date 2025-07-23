@@ -1,6 +1,6 @@
-const argon2 = require('argon2')
-const BaseController = require('./base_controller')
-const User = require('../models/user')
+import argon2 from 'argon2'
+import BaseController from '#base_controller'
+import User from '#user'
 
 class Registration extends BaseController {
   layout = 'layouts/authentication'
@@ -28,4 +28,4 @@ class Registration extends BaseController {
   }
 }
 
-module.exports = Registration
+export default Registration

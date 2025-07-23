@@ -3,9 +3,10 @@
   "version": "1.1.0",
   "description": "A starter project using Fastify.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch index.js --env-file .env | pino-pretty",
+    "dev": "node --env-file=.env --watch index.js | pino-pretty",
     "start": "node index.js --env-file .env",
     "generate:resource": "node generators/resource.js",
     "generate:model": "node generators/model.js",
@@ -15,6 +16,16 @@
   },
   "author": "Aigars Dzerviniks",
   "license": "MIT",
+  "imports": {
+    "#router": "./src/plugins/router.js",
+    "#renderer": "./src/plugins/renderer.js",
+    "#base_controller": "./src/controllers/base_controller.js",
+    "#authenticator": "./src/hooks/authenticator.js",
+    "#user": "./src/models/user.js",
+    "#two_factor_secret": "./src/models/two_factor_secret.js",
+    "#base_model": "./src/models/base_model.js",
+    "#database": "./src/database.js"
+  },
   "dependencies": {
     "@fastify/compress": "^8.0.3",
     "@fastify/cookie": "^11.0.2",

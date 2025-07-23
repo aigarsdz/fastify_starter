@@ -1,7 +1,7 @@
-const BaseController = require('./base_controller')
-const { authenticate } = require('../hooks/authenticator')
-const User = require('../models/user')
-const TwoFactorSecret = require('../models/two_factor_secret')
+import BaseController from '#base_controller'
+import { authenticate } from '#authenticator'
+import User from '#user'
+import TwoFactorSecret from '#two_factor_secret'
 
 class Dashboard extends BaseController {
   hooks = {
@@ -66,4 +66,4 @@ class Dashboard extends BaseController {
   }
 }
 
-module.exports = Dashboard
+export default Dashboard

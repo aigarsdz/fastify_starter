@@ -1,6 +1,6 @@
-const database = require('../database')
-const BaseModel = require('./base_model')
-const TwoFactorSecret = require('./two_factor_secret')
+import database from '#database'
+import BaseModel from '#base_model'
+import TwoFactorSecret from '#two_factor_secret'
 
 class User extends BaseModel {
   id = 0
@@ -68,4 +68,4 @@ class User extends BaseModel {
   }
 }
 
-module.exports = User
+export default User

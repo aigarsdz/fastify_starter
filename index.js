@@ -1,47 +1,48 @@
-const path = require('path')
-const fastifyHelmet = require('@fastify/helmet')
-const fastifyRateLimit = require('@fastify/rate-limit')
-const fastifyFormBody = require('@fastify/formbody')
-const fastifyMultipart = require('@fastify/multipart')
-const fastifyStatic = require('@fastify/static')
-const fastifyCookie = require('@fastify/cookie')
-const fastifyCompress = require('@fastify/compress')
-const { Liquid } = require('liquidjs')
-const router = require('./src/plugins/router')
-const renderer = require('./src/plugins/renderer')
-
+import path from 'node:path'
+import fastify from 'fastify'
+import fastifyHelmet from '@fastify/helmet'
+import fastifyRateLimit from '@fastify/rate-limit'
+import fastifyFormBody from '@fastify/formbody'
+import fastifyMultipart from '@fastify/multipart'
+import fastifyStatic from '@fastify/static'
+import fastifyCookie from '@fastify/cookie'
+import fastifyCompress from '@fastify/compress'
+import { Liquid } from 'liquidjs'
+import router from '#router'
+import renderer from '#renderer'
+console.log(process.env)
 const engine = new Liquid({
-  root: path.join(__dirname, 'src/views'),
+  root: path.resolve('src/views'),
   extname: ".liquid",
 })
 
-const fastify = require('fastify')({
+const app = fastify({
   logger: true
 })
 
-fastify.register(fastifyHelmet)
-fastify.register(fastifyRateLimit, {
+app.register(fastifyHelmet)
+app.register(fastifyRateLimit, {
   max: 120,
   timeWindow: '1 minute'
 })
-fastify.register(fastifyStatic, {
-  root: path.join(__dirname, 'public'),
+app.register(fastifyStatic, {
+  root: path.resolve('public'),
   prefix: '/public/'
 })
-fastify.register(fastifyFormBody)
-fastify.register(fastifyMultipart)
-fastify.register(fastifyCookie, {
+app.register(fastifyFormBody)
+app.register(fastifyMultipart)
+app.register(fastifyCookie, {
   secret: process.env.COOKIE_SECRET
 })
-fastify.register(fastifyCompress)
-fastify.register(renderer, {
+app.register(fastifyCompress)
+app.register(renderer, {
   defaultLayout: 'layouts/default'
 })
-fastify.register(router)
+app.register(router)
 
-fastify.listen({ port: 3000 }, (error, address) => {
+app.listen({ port: 3000 }, (error, address) => {
   if (error) {
-    fastify.log.error(error)
+    app.log.error(error)
     process.exit(1)
   }
 })

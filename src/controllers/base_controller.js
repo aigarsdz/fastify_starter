@@ -9,4 +9,4 @@ class BaseController {
   deleteHooks = {}
 }
 
-module.exports = BaseController
+export default BaseController

@@ -1,9 +1,9 @@
-const path = require('path')
-const fp = require('fastify-plugin')
-const { Liquid } = require('liquidjs')
+import path from 'node:path'
+import fp from 'fastify-plugin'
+import { Liquid } from 'liquidjs'
 
 const engine = new Liquid({
-  root: path.join(path.dirname(__dirname), 'views'),
+  root: path.resolve('src/views'),
   extname: '.liquid'
 })
 
@@ -23,4 +23,6 @@ function renderer(fastify, options) {
 	})
 }
 
-module.exports = fp(renderer)
+const rendererPlugin = fp(renderer)
+
+export default rendererPlugin

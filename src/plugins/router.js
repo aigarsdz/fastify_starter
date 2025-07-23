@@ -1,16 +1,16 @@
-const path = require('path')
-const fs = require('node:fs/promises')
-const fp = require('fastify-plugin')
+import path from 'node:path'
+import fs from 'node:fs/promises'
+import fp from 'fastify-plugin'
+
+const FILE_SYSTEM_CONTROLLERS_PATH = 'src/controllers'
+const MODULE_CONTROLLERS_PATH = '../controllers'
 
 async function router(fastify) {
-  const controllersDir = path.join(path.dirname(__dirname), 'controllers')
-  const controllerFiles = await fs.readdir(controllersDir)
+  const controllerFiles = await fs.readdir(FILE_SYSTEM_CONTROLLERS_PATH)
 
   for (const fileName of controllerFiles) {
-    const filePath = path.join(controllersDir, fileName)
-
-    if ((await fs.lstat(filePath)).isFile()) {
-      const ControllerClass = require(filePath)
+    if (fileName != 'base_controller.js' && (await fs.lstat(`${FILE_SYSTEM_CONTROLLERS_PATH}/${fileName}`)).isFile()) {
+      const ControllerClass = (await import(`${MODULE_CONTROLLERS_PATH}/${fileName}`)).default
       const controller = new ControllerClass()
 
       let urlPath = '/' + path.basename(fileName, '.js').replace(/[\s_]+/g, '-')
@@ -69,4 +69,6 @@ async function router(fastify) {
   }
 }
 
-module.exports = fp(router)
+const routerPlugin = fp(router)
+
+export default routerPlugin

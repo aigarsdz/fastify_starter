@@ -1,4 +1,4 @@
-const BaseController = require('./base_controller')
+import BaseController from '#base_controller'
 
 class Home extends BaseController {
   layout = 'layouts/authentication'
@@ -8,4 +8,4 @@ class Home extends BaseController {
   }
 }
 
-module.exports = Home
+export default Home
