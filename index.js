@@ -32,7 +32,10 @@ app.register(fastifyStatic, {
 app.register(fastifyFormBody)
 app.register(fastifyMultipart)
 app.register(fastifyCookie, {
-  secret: process.env.COOKIE_SECRET
+  secret: process.env.COOKIE_SECRET,
+  parseOptions: {
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+  }
 })
 app.register(fastifyCompress)
 app.register(renderer, {
