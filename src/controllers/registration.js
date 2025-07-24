@@ -1,6 +1,6 @@
 import argon2 from 'argon2'
-import BaseController from '#base_controller'
-import User from '#user'
+import BaseController from '#controllers/base_controller'
+import User from '#models/user'
 
 class Registration extends BaseController {
   layout = 'layouts/authentication'

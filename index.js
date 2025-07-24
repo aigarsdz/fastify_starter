@@ -8,9 +8,9 @@ import fastifyStatic from '@fastify/static'
 import fastifyCookie from '@fastify/cookie'
 import fastifyCompress from '@fastify/compress'
 import { Liquid } from 'liquidjs'
-import router from '#router'
-import renderer from '#renderer'
-console.log(process.env)
+import router from '#plugins/router'
+import renderer from '#plugins/renderer'
+
 const engine = new Liquid({
   root: path.resolve('src/views'),
   extname: ".liquid",

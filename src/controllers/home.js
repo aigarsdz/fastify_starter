@@ -1,4 +1,4 @@
-import BaseController from '#base_controller'
+import BaseController from '#controllers/base_controller'
 
 class Home extends BaseController {
   layout = 'layouts/authentication'

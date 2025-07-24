@@ -1,10 +1,11 @@
 import argon2 from 'argon2'
-import BaseController from '#base_controller'
-import User from '#user'
-import TwoFactorSecret from '#two_factor_secret'
+import BaseController from '#controllers/base_controller'
+import User from '#models/user'
+import TwoFactorSecret from '#models/two_factor_secret'
 
 class Login extends BaseController {
   layout = 'layouts/authentication'
+
   customRoutes = [
     ['get', '/login/verify/:userID', this.verify],
     ['post', '/login/verify', this.confirmVerification]

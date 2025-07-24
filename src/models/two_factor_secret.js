@@ -1,7 +1,7 @@
 import * as OTPAuth from 'otpauth'
 import QRCode from 'qrcode'
 import database from '#database'
-import BaseModel from '#base_model'
+import BaseModel from '#models/base_model'
 
 class TwoFactorSecret extends BaseModel {
   id = 0

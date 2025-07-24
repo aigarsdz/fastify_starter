@@ -1,6 +1,6 @@
 import database from '#database'
-import BaseModel from '#base_model'
-import TwoFactorSecret from '#two_factor_secret'
+import BaseModel from '#models/base_model'
+import TwoFactorSecret from '#models/two_factor_secret'
 
 class User extends BaseModel {
   id = 0

@@ -1,7 +1,7 @@
-import BaseController from '#base_controller'
-import { authenticate } from '#authenticator'
-import User from '#user'
-import TwoFactorSecret from '#two_factor_secret'
+import BaseController from '#controllers/base_controller'
+import { authenticate } from '#hooks/authenticator'
+import User from '#models/user'
+import TwoFactorSecret from '#models/two_factor_secret'
 
 class Dashboard extends BaseController {
   hooks = {

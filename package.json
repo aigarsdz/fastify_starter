@@ -17,13 +17,10 @@
   "author": "Aigars Dzerviniks",
   "license": "MIT",
   "imports": {
-    "#router": "./src/plugins/router.js",
-    "#renderer": "./src/plugins/renderer.js",
-    "#base_controller": "./src/controllers/base_controller.js",
-    "#authenticator": "./src/hooks/authenticator.js",
-    "#user": "./src/models/user.js",
-    "#two_factor_secret": "./src/models/two_factor_secret.js",
-    "#base_model": "./src/models/base_model.js",
+    "#plugins/*": "./src/plugins/*.js",
+    "#controllers/*": "./src/controllers/*.js",
+    "#hooks/*": "./src/hooks/*.js",
+    "#models/*": "./src/models/*.js",
     "#database": "./src/database.js"
   },
   "dependencies": {
